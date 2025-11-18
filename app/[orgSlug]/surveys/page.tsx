@@ -27,7 +27,7 @@ export default function SurveysPage({ params }: { params: { orgSlug: string } })
       setSurveys([
         {
           id: '1',
-          name: 'Encuesta Clima Laboral Q4 2024',
+          name: 'VITALIS - Clima Laboral Q4 2024',
           createdAt: '2024-10-15',
           status: 'active',
           totalEmployees: 45,
@@ -37,16 +37,16 @@ export default function SurveysPage({ params }: { params: { orgSlug: string } })
         },
         {
           id: '2',
-          name: 'Encuesta Onboarding Nuevos',
+          name: 'PDC - Diagnóstico de Desempeño Q4 2024',
           createdAt: '2024-11-01',
           status: 'active',
-          totalEmployees: 5,
-          responses: 3,
-          responseRate: 60,
+          totalEmployees: 45,
+          responses: 12,
+          responseRate: 27,
         },
         {
           id: '3',
-          name: 'Encuesta Clima Laboral Q3 2024',
+          name: 'VITALIS - Clima Laboral Q3 2024',
           createdAt: '2024-07-15',
           status: 'closed',
           totalEmployees: 42,
@@ -105,6 +105,51 @@ export default function SurveysPage({ params }: { params: { orgSlug: string } })
             Nueva Encuesta
           </Button>
         </Link>
+      </div>
+
+      {/* Survey Types Info */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card className="border-l-4 border-l-purple-500 shadow-lg hover:shadow-xl transition-all">
+          <CardContent className="p-6">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
+                V
+              </div>
+              <div className="flex-1">
+                <h3 className="text-lg font-bold text-gray-900 mb-2">VITALIS - Clima Laboral</h3>
+                <p className="text-sm text-gray-600 mb-3">
+                  Mide satisfacción, bienestar y cultura organizacional. Enfocado en el ambiente emocional y motivacional del equipo.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full">35 preguntas</span>
+                  <span className="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full">10 categorías</span>
+                  <span className="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full">Modelo SPORT</span>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-l-4 border-l-blue-500 shadow-lg hover:shadow-xl transition-all">
+          <CardContent className="p-6">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
+                P
+              </div>
+              <div className="flex-1">
+                <h3 className="text-lg font-bold text-gray-900 mb-2">PDC - Diagnóstico de Desempeño</h3>
+                <p className="text-sm text-gray-600 mb-3">
+                  Evalúa eficiencia operativa, procesos y recursos. Enfocado en el desempeño organizacional y mejora de procesos.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">43 preguntas</span>
+                  <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">10 dimensiones</span>
+                  <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">Performance</span>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Stats Cards */}
