@@ -175,7 +175,7 @@ export default function PublicSurveyPage({ params }: { params: { surveyId: strin
                   {index + 1}. {question.text}
                 </p>
 
-                {question.type === 'likert' && (
+                {question.type === 'scale' && (
                   <div className="space-y-2">
                     {question.options?.map((option) => (
                       <label
@@ -206,29 +206,19 @@ export default function PublicSurveyPage({ params }: { params: { surveyId: strin
                   />
                 )}
 
-                {question.type === 'multiselect' && (
-                  <div className="space-y-2">
+                {question.type === 'select' && (
+                  <select
+                    value={answers[question.id] || ''}
+                    onChange={(e) => handleAnswer(question.id, e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                  >
+                    <option value="">Selecciona una opción...</option>
                     {question.options?.map((option) => (
-                      <label
-                        key={option.value}
-                        className="flex items-center gap-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
-                      >
-                        <input
-                          type="checkbox"
-                          checked={(answers[question.id] || []).includes(option.value)}
-                          onChange={(e) => {
-                            const current = answers[question.id] || [];
-                            const updated = e.target.checked
-                              ? [...current, option.value]
-                              : current.filter((v: any) => v !== option.value);
-                            handleAnswer(question.id, updated);
-                          }}
-                          className="w-5 h-5 text-indigo-600 focus:ring-2 focus:ring-indigo-600 rounded"
-                        />
-                        <span className="text-gray-700">{option.label}</span>
-                      </label>
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
                     ))}
-                  </div>
+                  </select>
                 )}
               </div>
             ))}
