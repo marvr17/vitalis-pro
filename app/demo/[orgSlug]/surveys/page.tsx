@@ -1,0 +1,208 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Plus, Calendar, Users, TrendingUp, Eye } from 'lucide-react';
+
+interface Survey {
+  id: string;
+  name: string;
+  createdAt: string;
+  status: 'draft' | 'active' | 'closed';
+  totalEmployees: number;
+  responses: number;
+  responseRate: number;
+  globalScore?: number;
+}
+
+export default function DemoSurveysPage({ params }: { params: { orgSlug: string } }) {
+  const [surveys] = useState<Survey[]>([
+    {
+      id: '1',
+      name: 'Encuesta Clima Laboral Q4 2024',
+      createdAt: '2024-10-15',
+      status: 'active',
+      totalEmployees: 45,
+      responses: 39,
+      responseRate: 87,
+      globalScore: 3.8,
+    },
+    {
+      id: '2',
+      name: 'Encuesta Onboarding Nuevos',
+      createdAt: '2024-11-01',
+      status: 'active',
+      totalEmployees: 5,
+      responses: 3,
+      responseRate: 60,
+    },
+    {
+      id: '3',
+      name: 'Encuesta Clima Laboral Q3 2024',
+      createdAt: '2024-07-15',
+      status: 'closed',
+      totalEmployees: 42,
+      responses: 40,
+      responseRate: 95,
+      globalScore: 3.5,
+    },
+  ]);
+
+  const getStatusBadge = (status: Survey['status']) => {
+    const styles = {
+      draft: 'bg-gray-100 text-gray-700',
+      active: 'bg-green-100 text-green-700',
+      closed: 'bg-blue-100 text-blue-700',
+    };
+    const labels = {
+      draft: 'Borrador',
+      active: 'Activa',
+      closed: 'Cerrada',
+    };
+    return (
+      <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${styles[status]}`}>
+        {labels[status]}
+      </span>
+    );
+  };
+
+  const getScoreColor = (score: number) => {
+    if (score >= 4.0) return 'text-green-600';
+    if (score >= 3.0) return 'text-yellow-600';
+    return 'text-red-600';
+  };
+
+  return (
+    <div className="space-y-6 animate-in fade-in duration-500">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Encuestas</h1>
+          <p className="text-gray-600 mt-1">Mide y analiza el clima laboral de tu equipo</p>
+        </div>
+        <Button className="gap-2" disabled>
+          <Plus className="w-4 h-4" />
+          Nueva Encuesta
+        </Button>
+      </div>
+
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-indigo-50 to-purple-50">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-medium text-gray-600">Total Encuestas</span>
+              <span className="text-2xl">📋</span>
+            </div>
+            <div className="text-3xl font-bold text-indigo-600">{surveys.length}</div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-green-50 to-emerald-50">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-medium text-gray-600">Activas</span>
+              <span className="text-2xl">✅</span>
+            </div>
+            <div className="text-3xl font-bold text-green-600">
+              {surveys.filter((s) => s.status === 'active').length}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-50 to-cyan-50">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-medium text-gray-600">Promedio Respuesta</span>
+              <span className="text-2xl">📊</span>
+            </div>
+            <div className="text-3xl font-bold text-blue-600">
+              {Math.round(
+                surveys.reduce((acc, s) => acc + s.responseRate, 0) / surveys.length
+              )}%
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-purple-50 to-pink-50">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-medium text-gray-600">Total Respuestas</span>
+              <span className="text-2xl">💬</span>
+            </div>
+            <div className="text-3xl font-bold text-purple-600">
+              {surveys.reduce((acc, s) => acc + s.responses, 0)}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Surveys List */}
+      <div className="grid grid-cols-1 gap-6">
+        {surveys.map((survey) => (
+          <Card key={survey.id} className="shadow-lg hover:shadow-xl transition-all">
+            <CardContent className="p-6">
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                {/* Left Section - Info */}
+                <div className="flex-1">
+                  <div className="flex items-start justify-between mb-3">
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900 mb-2">{survey.name}</h3>
+                      <div className="flex items-center gap-4 text-sm text-gray-600">
+                        <span className="flex items-center gap-1">
+                          <Calendar className="w-4 h-4" />
+                          {new Date(survey.createdAt).toLocaleDateString('es-MX')}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Users className="w-4 h-4" />
+                          {survey.totalEmployees} empleados
+                        </span>
+                      </div>
+                    </div>
+                    {getStatusBadge(survey.status)}
+                  </div>
+
+                  {/* Progress Bar */}
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600">Tasa de respuesta</span>
+                      <span className="font-semibold text-gray-900">
+                        {survey.responses} / {survey.totalEmployees} ({survey.responseRate}%)
+                      </span>
+                    </div>
+                    <div className="relative h-2 bg-gray-100 rounded-full overflow-hidden">
+                      <div
+                        className="absolute left-0 top-0 h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full transition-all"
+                        style={{ width: `${survey.responseRate}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Global Score */}
+                  {survey.globalScore && (
+                    <div className="mt-3 flex items-center gap-2">
+                      <TrendingUp className="w-4 h-4 text-gray-400" />
+                      <span className="text-sm text-gray-600">Índice Global:</span>
+                      <span className={`text-lg font-bold ${getScoreColor(survey.globalScore)}`}>
+                        {survey.globalScore.toFixed(1)}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Right Section - Actions */}
+                <div className="flex lg:flex-col gap-2">
+                  <Button variant="outline" className="w-full gap-2" disabled>
+                    <Eye className="w-4 h-4" />
+                    Ver Resultados
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}
