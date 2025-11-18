@@ -15,19 +15,28 @@ interface Message {
 const SUGGESTED_QUESTIONS = [
   '¿Qué es VITALIS?',
   '¿Qué es PDC?',
+  '¿Cuál es la diferencia entre VITALIS y PDC?',
   '¿Cómo interpreto los resultados?',
   '¿Cómo crear un plan de mejora?',
   '¿Cada cuánto aplicar encuestas?',
+  '¿Qué hago si una categoría sale baja?',
+  '¿Cuántos empleados puedo agregar?',
 ];
 
 const BOT_RESPONSES: Record<string, string> = {
-  'vitalis': 'VITALIS es una encuesta de clima laboral con 35 preguntas que mide satisfacción, bienestar y cultura organizacional. Está basada en el modelo SPORT y evalúa 10 categorías clave del ambiente laboral.',
-  'pdc': 'PDC (Performance Diagnostic Checklist) es una encuesta de 43 preguntas enfocada en diagnóstico de desempeño operativo. Evalúa eficiencia de procesos, recursos, comunicación y mejora continua en 10 dimensiones.',
-  'resultado': 'Los resultados se miden en escala 1-5. Scores >4.0 son excelentes (verde), 3.0-4.0 son aceptables (amarillo), y <3.0 requieren atención inmediata (rojo). Revisa el dashboard y reportes para análisis detallado.',
-  'plan': 'Para crear un plan de mejora: 1) Identifica áreas con score <3.0, 2) Ve a Planes de Mejora, 3) Crea un plan con acciones específicas, responsables y fechas límite, 4) Monitorea el progreso regularmente.',
-  'frecuencia': 'Recomendamos aplicar VITALIS cada 6 meses y PDC cada trimestre. VITALIS mide aspectos más estables del clima laboral, mientras que PDC rastrea eficiencia operativa que puede cambiar más rápido.',
-  'diferencia': 'VITALIS mide el "cómo se sienten" los empleados (clima emocional), mientras que PDC mide "qué tan bien funcionan" los procesos (eficiencia operativa). Ambas son complementarias para una visión completa.',
-  'default': 'Interesante pregunta. Te recomiendo revisar nuestra sección de FAQs o contactar a soporte para más información específica sobre este tema.',
+  'vitalis': 'VITALIS es una encuesta de clima laboral con 35 preguntas que mide satisfacción, bienestar y cultura organizacional. Está basada en el modelo SPORT y evalúa 10 categorías clave del ambiente laboral.\n\n¿Te gustaría saber más sobre alguna categoría específica?',
+  'pdc': 'PDC (Performance Diagnostic Checklist) es una encuesta de 43 preguntas enfocada en diagnóstico de desempeño operativo. Evalúa eficiencia de procesos, recursos, comunicación y mejora continua en 10 dimensiones.\n\n¿Quieres saber cuándo aplicarla?',
+  'resultado': 'Los resultados se miden en escala 1-5:\n• 4.0-5.0 (Verde): Excelente, mantener\n• 3.0-3.9 (Amarillo): Aceptable, mejorable\n• 1.0-2.9 (Rojo): Crítico, requiere acción\n\nRevisa el dashboard y reportes para análisis detallado por categoría y departamento.',
+  'plan': 'Para crear un plan de mejora:\n1) Identifica áreas con score <3.0\n2) Ve a "Planes de Mejora"\n3) Crea un plan con acciones específicas\n4) Asigna responsables y fechas\n5) Monitorea progreso regularmente\n\n¿Necesitas ejemplos de acciones efectivas?',
+  'frecuencia': 'Frecuencia recomendada:\n• VITALIS: Cada 6 meses (clima es más estable)\n• PDC: Trimestral (procesos cambian más rápido)\n\nPuedes hacer seguimientos más frecuentes en áreas específicas después de implementar mejoras.',
+  'diferencia': 'Diferencias clave:\n\n🟣 VITALIS (Clima Laboral):\n• ¿Cómo se SIENTEN los empleados?\n• Satisfacción, cultura, bienestar\n• Cada 6 meses\n\n🔵 PDC (Desempeño):\n• ¿Qué tan bien FUNCIONAN los procesos?\n• Eficiencia, recursos, procedimientos\n• Trimestral\n\nAmbas son complementarias.',
+  'categoria_baja': 'Si una categoría sale <3.0:\n1. Lee los comentarios abiertos\n2. Identifica causas raíz\n3. Crea un Plan de Mejora\n4. Define 4-8 acciones específicas\n5. Asigna responsables\n6. Implementa cambios\n7. Vuelve a medir en 3-6 meses\n\n¿Qué categoría te preocupa?',
+  'empleados': 'Límites por plan:\n• Free: Hasta 50 empleados\n• Professional: Hasta 200 empleados\n• Enterprise: Ilimitados\n\n¿Cuántos empleados tienes en tu organización?',
+  'anonimo': 'Sí, ambas encuestas son 100% anónimas. Los empleados responden sin identificarse. Solo se recopilan datos demográficos generales (como departamento) que no comprometen la privacidad individual.\n\nEsto garantiza respuestas honestas y sinceras.',
+  'tasa_respuesta': 'Una tasa de respuesta saludable es 70-85%.\n\nPara mejorarla:\n• Comunica el propósito claramente\n• Garantiza anonimato\n• Da tiempo suficiente (2-3 semanas)\n• Envía recordatorios amigables\n• Comparte resultados y acciones previas',
+  'tiempo': 'Tiempo estimado:\n• VITALIS: 8-10 minutos\n• PDC: 10-12 minutos\n\nEstán diseñadas para ser completas pero respetando el tiempo de tus colaboradores.',
+  'exportar': 'Puedes exportar:\n• Reportes en PDF (desde Reportes)\n• Datos de empleados en Excel (desde Empleados)\n• Incluye gráficas, análisis y comparativas\n\n¿Necesitas exportar algo ahora?',
+  'default': 'Interesante pregunta. Te recomiendo:\n1. Revisar nuestra sección de FAQs completa\n2. Contactar a soporte para consultas específicas\n3. Explorar el dashboard y reportes\n\n¿Hay algo más en lo que pueda ayudarte?',
 };
 
 export default function VirtualAssistant() {
@@ -46,12 +55,65 @@ export default function VirtualAssistant() {
   const getResponse = (question: string): string => {
     const lowerQuestion = question.toLowerCase();
 
-    if (lowerQuestion.includes('vitalis')) return BOT_RESPONSES.vitalis;
-    if (lowerQuestion.includes('pdc') || lowerQuestion.includes('performance')) return BOT_RESPONSES.pdc;
-    if (lowerQuestion.includes('resultado') || lowerQuestion.includes('interpretar')) return BOT_RESPONSES.resultado;
-    if (lowerQuestion.includes('plan') || lowerQuestion.includes('mejora')) return BOT_RESPONSES.plan;
-    if (lowerQuestion.includes('frecuencia') || lowerQuestion.includes('cuándo') || lowerQuestion.includes('cada cuanto')) return BOT_RESPONSES.frecuencia;
-    if (lowerQuestion.includes('diferencia') || lowerQuestion.includes('vs')) return BOT_RESPONSES.diferencia;
+    // VITALIS
+    if (lowerQuestion.includes('vitalis') && !lowerQuestion.includes('diferencia') && !lowerQuestion.includes('vs')) {
+      return BOT_RESPONSES.vitalis;
+    }
+
+    // PDC
+    if (lowerQuestion.includes('pdc') || lowerQuestion.includes('performance') || lowerQuestion.includes('diagnóstico') || lowerQuestion.includes('diagnostico')) {
+      return BOT_RESPONSES.pdc;
+    }
+
+    // Diferencias
+    if (lowerQuestion.includes('diferencia') || lowerQuestion.includes('vs') || lowerQuestion.includes('comparar')) {
+      return BOT_RESPONSES.diferencia;
+    }
+
+    // Resultados
+    if (lowerQuestion.includes('resultado') || lowerQuestion.includes('interpretar') || lowerQuestion.includes('score') || lowerQuestion.includes('índice')) {
+      return BOT_RESPONSES.resultado;
+    }
+
+    // Categoría baja
+    if (lowerQuestion.includes('baja') || lowerQuestion.includes('bajo') || lowerQuestion.includes('críti') || lowerQuestion.includes('rojo') || lowerQuestion.includes('problema')) {
+      return BOT_RESPONSES.categoria_baja;
+    }
+
+    // Plan de mejora/acción
+    if (lowerQuestion.includes('plan') || lowerQuestion.includes('mejora') || lowerQuestion.includes('acción') || lowerQuestion.includes('accion')) {
+      return BOT_RESPONSES.plan;
+    }
+
+    // Frecuencia
+    if (lowerQuestion.includes('frecuencia') || lowerQuestion.includes('cuándo') || lowerQuestion.includes('cuando') || lowerQuestion.includes('cada cuanto')) {
+      return BOT_RESPONSES.frecuencia;
+    }
+
+    // Empleados
+    if (lowerQuestion.includes('empleado') || lowerQuestion.includes('cuántos') || lowerQuestion.includes('límite') || lowerQuestion.includes('limite') || lowerQuestion.includes('plan')) {
+      return BOT_RESPONSES.empleados;
+    }
+
+    // Anonimato
+    if (lowerQuestion.includes('anoni') || lowerQuestion.includes('privaci') || lowerQuestion.includes('confidencial')) {
+      return BOT_RESPONSES.anonimo;
+    }
+
+    // Tasa de respuesta
+    if (lowerQuestion.includes('tasa') || lowerQuestion.includes('responden') || lowerQuestion.includes('participación') || lowerQuestion.includes('participacion')) {
+      return BOT_RESPONSES.tasa_respuesta;
+    }
+
+    // Tiempo
+    if (lowerQuestion.includes('tiempo') || lowerQuestion.includes('minutos') || lowerQuestion.includes('demora') || lowerQuestion.includes('duración') || lowerQuestion.includes('duracion')) {
+      return BOT_RESPONSES.tiempo;
+    }
+
+    // Exportar
+    if (lowerQuestion.includes('exportar') || lowerQuestion.includes('descargar') || lowerQuestion.includes('pdf') || lowerQuestion.includes('excel')) {
+      return BOT_RESPONSES.exportar;
+    }
 
     return BOT_RESPONSES.default;
   };
@@ -165,22 +227,24 @@ export default function VirtualAssistant() {
           </div>
         )}
 
-        {/* Suggested Questions */}
-        {messages.length === 1 && !isTyping && (
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 text-xs text-gray-500 mb-3">
+        {/* Suggested Questions - Always Visible */}
+        {!isTyping && (
+          <div className="space-y-2 pt-4 border-t border-gray-200">
+            <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
               <Lightbulb className="w-4 h-4" />
               <span>Preguntas frecuentes:</span>
             </div>
-            {SUGGESTED_QUESTIONS.map((question, index) => (
-              <button
-                key={index}
-                onClick={() => handleSuggestedQuestion(question)}
-                className="w-full text-left text-sm px-4 py-2 bg-white hover:bg-indigo-50 border border-gray-200 hover:border-indigo-300 rounded-lg transition-all text-gray-700 hover:text-indigo-700"
-              >
-                {question}
-              </button>
-            ))}
+            <div className="grid grid-cols-1 gap-2">
+              {SUGGESTED_QUESTIONS.slice(0, 4).map((question, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleSuggestedQuestion(question)}
+                  className="w-full text-left text-xs px-3 py-2 bg-white hover:bg-indigo-50 border border-gray-200 hover:border-indigo-300 rounded-lg transition-all text-gray-700 hover:text-indigo-700"
+                >
+                  {question}
+                </button>
+              ))}
+            </div>
           </div>
         )}
       </div>
