@@ -45,8 +45,9 @@ export async function POST(request: Request) {
           email: emp.email,
           department: emp.department || '',
           position: emp.position || '',
-          startDate: emp.startDate || new Date().toISOString().split('T')[0],
-          status: 'active',
+          age: emp.age ? parseInt(emp.age) : undefined,
+          gender: emp.gender || '',
+          tenure: emp.tenure || '',
         });
 
         results.success++;
