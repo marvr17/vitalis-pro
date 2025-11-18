@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LayoutDashboard, Users, FileText, BarChart3, Settings, Eye, Menu, X as CloseIcon } from 'lucide-react';
 import { useState } from 'react';
+import VirtualAssistant from '@/components/VirtualAssistant';
 
 export default function DemoLayout({
   children,
@@ -108,6 +109,9 @@ export default function DemoLayout({
         {/* Main Content */}
         <main className="flex-1 lg:ml-64 p-4 md:p-8 mt-[40px]">{children}</main>
       </div>
+
+      {/* Virtual Assistant */}
+      <VirtualAssistant />
     </div>
   );
 }

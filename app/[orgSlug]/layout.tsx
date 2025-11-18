@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import VirtualAssistant from '@/components/VirtualAssistant';
 
 export default function OrgLayout({
   children,
@@ -132,6 +133,9 @@ export default function OrgLayout({
         {/* Page content */}
         <div className="p-8">{children}</div>
       </div>
+
+      {/* Virtual Assistant */}
+      <VirtualAssistant />
     </div>
   );
 }
