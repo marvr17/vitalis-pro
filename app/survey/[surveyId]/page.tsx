@@ -177,20 +177,20 @@ export default function PublicSurveyPage({ params }: { params: { surveyId: strin
 
                 {question.type === 'scale' && (
                   <div className="space-y-2">
-                    {question.options?.map((option) => (
+                    {[1, 2, 3, 4, 5].map((value) => (
                       <label
-                        key={option.value}
+                        key={value}
                         className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
                       >
                         <input
                           type="radio"
                           name={question.id}
-                          value={option.value}
-                          checked={answers[question.id] === option.value}
+                          value={value}
+                          checked={answers[question.id] === value}
                           onChange={(e) => handleAnswer(question.id, parseInt(e.target.value))}
                           className="w-5 h-5 text-indigo-600 focus:ring-2 focus:ring-indigo-600"
                         />
-                        <span className="text-gray-700">{option.label}</span>
+                        <span className="text-gray-700">{value}</span>
                       </label>
                     ))}
                   </div>
