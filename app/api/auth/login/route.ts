@@ -33,7 +33,20 @@ export async function POST(request: Request) {
       );
     }
 
-    // Obtener organización
+    // Si es super admin, no necesita organización
+    if (user.role === 'super_admin') {
+      return NextResponse.json({
+        user: {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role,
+        },
+        isSuperAdmin: true,
+      });
+    }
+
+    // Para usuarios normales, obtener organización
     const organization = await getOrganizationById(user.organizationId);
 
     if (!organization || organization.isActive !== 'true') {

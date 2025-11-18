@@ -95,6 +95,21 @@ export async function getOrganizationById(id: string) {
   return orgs.find(org => org.id === id) || null;
 }
 
+export async function getAllOrganizations() {
+  const response = await sheets.spreadsheets.values.get({
+    spreadsheetId: SHEET_ID,
+    range: 'organizations!A:I',
+  });
+
+  const rows = response.data.values;
+  if (!rows || rows.length < 2) return [];
+
+  const headers = rows[0];
+  const orgs = rowsToObjects(rows, headers);
+
+  return orgs;
+}
+
 // ==========================================
 // USUARIOS (Admins de empresas)
 // ==========================================

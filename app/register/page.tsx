@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -8,6 +8,22 @@ export default function RegisterPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [isAuthorized, setIsAuthorized] = useState(false);
+
+  useEffect(() => {
+    // Verificar si el usuario es super admin
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+      const user = JSON.parse(userStr);
+      if (user.role === 'super_admin') {
+        setIsAuthorized(true);
+      } else {
+        setError('Acceso denegado. Solo Super Admins pueden crear organizaciones.');
+      }
+    } else {
+      setError('Acceso denegado. Debes iniciar sesión como Super Admin.');
+    }
+  }, []);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -43,6 +59,34 @@ export default function RegisterPage() {
     } finally {
       setLoading(false);
     }
+  }
+
+  // Si no está autorizado, mostrar mensaje de acceso denegado
+  if (!isAuthorized) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-center p-4">
+        <div className="max-w-md w-full">
+          <div className="text-center mb-8">
+            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-3xl">🔒</span>
+            </div>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">Acceso Restringido</h1>
+            <p className="text-gray-600">{error}</p>
+          </div>
+          <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
+            <p className="text-gray-700 mb-6">
+              El registro de nuevas organizaciones está restringido a Super Administradores.
+            </p>
+            <Link
+              href="/login"
+              className="inline-block px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:opacity-90 font-bold"
+            >
+              Ir al Login
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (

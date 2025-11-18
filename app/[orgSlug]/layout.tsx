@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { Menu, X } from 'lucide-react';
 import VirtualAssistant from '@/components/VirtualAssistant';
 
 export default function OrgLayout({
@@ -16,6 +17,7 @@ export default function OrgLayout({
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
   const [org, setOrg] = useState<any>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     // Verificar autenticación (simplificado - en producción usar NextAuth)
@@ -55,8 +57,20 @@ export default function OrgLayout({
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Mobile sidebar overlay */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <div className="fixed inset-y-0 left-0 w-64 bg-white border-r border-gray-200">
+      <div className={`
+        fixed inset-y-0 left-0 w-64 bg-white border-r border-gray-200 z-50 transform transition-transform duration-300 ease-in-out
+        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+        lg:translate-x-0
+      `}>
         {/* Logo */}
         <div className="h-16 flex items-center gap-3 px-6 border-b border-gray-200">
           <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">
@@ -68,6 +82,14 @@ export default function OrgLayout({
           </div>
         </div>
 
+        {/* Close button (mobile only) */}
+        <button
+          onClick={() => setSidebarOpen(false)}
+          className="lg:hidden absolute top-4 right-4 p-2 rounded-lg hover:bg-gray-100"
+        >
+          <X className="w-5 h-5 text-gray-600" />
+        </button>
+
         {/* Navigation */}
         <nav className="p-4 space-y-1">
           {navigation.map((item) => {
@@ -76,6 +98,7 @@ export default function OrgLayout({
               <Link
                 key={item.name}
                 href={item.href}
+                onClick={() => setSidebarOpen(false)}
                 className={`
                   flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all
                   ${
@@ -115,23 +138,30 @@ export default function OrgLayout({
       </div>
 
       {/* Main content */}
-      <div className="pl-64">
+      <div className="lg:pl-64">
         {/* Top bar */}
-        <div className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8">
-          <div>
-            <h1 className="text-xl font-bold text-gray-900">
+        <div className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 md:px-8">
+          {/* Mobile menu button */}
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="lg:hidden p-2 rounded-lg hover:bg-gray-100"
+          >
+            <Menu className="w-6 h-6 text-gray-600" />
+          </button>
+          <div className="flex-1 lg:flex-none">
+            <h1 className="text-lg md:text-xl font-bold text-gray-900 truncate">
               {navigation.find((n) => n.href === pathname)?.name || 'Vitalis'}
             </h1>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="px-3 py-1 bg-gradient-to-r from-indigo-50 to-purple-50 text-indigo-600 rounded-full text-sm font-medium">
-              Plan: {org.plan.toUpperCase()}
+          <div className="flex items-center gap-2 md:gap-4">
+            <div className="px-2 md:px-3 py-1 bg-gradient-to-r from-indigo-50 to-purple-50 text-indigo-600 rounded-full text-xs md:text-sm font-medium">
+              {org.plan.toUpperCase()}
             </div>
           </div>
         </div>
 
         {/* Page content */}
-        <div className="p-8">{children}</div>
+        <div className="p-4 md:p-6 lg:p-8">{children}</div>
       </div>
 
       {/* Virtual Assistant */}

@@ -37,10 +37,15 @@ function LoginForm() {
 
       // Guardar en localStorage (en producción usar cookies seguras)
       localStorage.setItem('user', JSON.stringify(data.user));
-      localStorage.setItem('organization', JSON.stringify(data.organization));
 
-      // Redirigir al dashboard
-      router.push(`/${data.organization.slug}/dashboard`);
+      // Si es super admin, redirigir al panel de super admin
+      if (data.isSuperAdmin) {
+        router.push('/super-admin/dashboard');
+      } else {
+        // Usuario normal: guardar organización y redirigir
+        localStorage.setItem('organization', JSON.stringify(data.organization));
+        router.push(`/${data.organization.slug}/dashboard`);
+      }
     } catch (err: any) {
       setError(err.message);
     } finally {

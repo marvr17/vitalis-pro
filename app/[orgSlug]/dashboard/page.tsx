@@ -55,28 +55,28 @@ export default function DashboardPage({ params }: { params: { orgSlug: string } 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
       {/* Welcome Banner */}
-      <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-2xl p-8 text-white shadow-xl">
-        <h1 className="text-3xl font-bold mb-2">
+      <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-xl md:rounded-2xl p-4 md:p-6 lg:p-8 text-white shadow-xl">
+        <h1 className="text-xl md:text-2xl lg:text-3xl font-bold mb-2">
           ¡Bienvenido de vuelta! 👋
         </h1>
-        <p className="text-indigo-100 text-lg">
+        <p className="text-indigo-100 text-sm md:text-base lg:text-lg">
           Aquí está el resumen de tu clima laboral
         </p>
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {/* Global Score */}
         <Card className="overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
-          <CardContent className={`p-6 bg-gradient-to-br ${getScoreBg(stats.globalScore)}`}>
+          <CardContent className={`p-4 md:p-6 bg-gradient-to-br ${getScoreBg(stats.globalScore)}`}>
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium text-gray-600">Índice Global</span>
               <span className="text-2xl">📊</span>
             </div>
-            <div className={`text-4xl font-bold ${getScoreColor(stats.globalScore)} mb-1`}>
+            <div className={`text-3xl md:text-4xl font-bold ${getScoreColor(stats.globalScore)} mb-1`}>
               {stats.globalScore.toFixed(1)}
             </div>
-            <div className="flex items-center gap-2 text-sm">
+            <div className="flex items-center gap-2 text-xs md:text-sm">
               <span className={stats.trend === 'up' ? 'text-green-600' : 'text-gray-500'}>
                 {stats.trend === 'up' && '↗ +0.3 vs mes anterior'}
                 {stats.trend === 'down' && '↘ -0.2 vs mes anterior'}
@@ -187,22 +187,22 @@ export default function DashboardPage({ params }: { params: { orgSlug: string } 
           {/* Quick Actions */}
           <Card className="shadow-lg bg-gradient-to-br from-gray-50 to-white">
             <CardHeader>
-              <CardTitle>Acciones Rápidas</CardTitle>
+              <CardTitle className="text-base md:text-lg">Acciones Rápidas</CardTitle>
             </CardHeader>
-            <CardContent className="grid grid-cols-2 gap-4">
+            <CardContent className="grid grid-cols-2 gap-3 md:gap-4">
               <Link
                 href={`/${params.orgSlug}/surveys/create`}
-                className="p-6 rounded-xl border-2 border-dashed border-indigo-300 hover:border-indigo-500 hover:bg-indigo-50 transition-all group text-center"
+                className="p-4 md:p-6 rounded-lg md:rounded-xl border-2 border-dashed border-indigo-300 hover:border-indigo-500 hover:bg-indigo-50 transition-all group text-center"
               >
-                <div className="text-4xl mb-2 group-hover:scale-110 transition-transform">📋</div>
-                <div className="font-medium text-gray-700">Nueva Encuesta</div>
+                <div className="text-2xl md:text-4xl mb-1 md:mb-2 group-hover:scale-110 transition-transform">📋</div>
+                <div className="font-medium text-gray-700 text-xs md:text-sm">Nueva Encuesta</div>
               </Link>
               <Link
                 href={`/${params.orgSlug}/employees`}
-                className="p-6 rounded-xl border-2 border-dashed border-purple-300 hover:border-purple-500 hover:bg-purple-50 transition-all group text-center"
+                className="p-4 md:p-6 rounded-lg md:rounded-xl border-2 border-dashed border-purple-300 hover:border-purple-500 hover:bg-purple-50 transition-all group text-center"
               >
-                <div className="text-4xl mb-2 group-hover:scale-110 transition-transform">👤</div>
-                <div className="font-medium text-gray-700">Agregar Empleados</div>
+                <div className="text-2xl md:text-4xl mb-1 md:mb-2 group-hover:scale-110 transition-transform">👤</div>
+                <div className="font-medium text-gray-700 text-xs md:text-sm">Agregar Empleados</div>
               </Link>
             </CardContent>
           </Card>
