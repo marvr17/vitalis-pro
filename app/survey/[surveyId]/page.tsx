@@ -11,14 +11,18 @@ export default function PublicSurveyPage({ params }: { params: { surveyId: strin
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const categories = Object.keys(VITALIS_QUESTIONS);
-  const currentCategoryKey = categories[currentCategory];
-  const currentQuestions = VITALIS_QUESTIONS[currentCategoryKey as keyof typeof VITALIS_QUESTIONS];
+  // Agrupar preguntas por categoría
+  const questionsByCategory = VITALIS_QUESTIONS.reduce((acc, q) => {
+    if (!acc[q.category]) acc[q.category] = [];
+    acc[q.category].push(q);
+    return acc;
+  }, {} as Record<string, typeof VITALIS_QUESTIONS>);
 
-  const totalQuestions = Object.values(VITALIS_QUESTIONS).reduce(
-    (sum, cat) => sum + cat.questions.length,
-    0
-  );
+  const categories = Object.keys(questionsByCategory);
+  const currentCategoryKey = categories[currentCategory];
+  const currentQuestions = questionsByCategory[currentCategoryKey] || [];
+
+  const totalQuestions = VITALIS_QUESTIONS.length;
   const answeredQuestions = Object.keys(answers).length;
   const progress = (answeredQuestions / totalQuestions) * 100;
 
@@ -43,7 +47,7 @@ export default function PublicSurveyPage({ params }: { params: { surveyId: strin
   }
 
   function canGoNext() {
-    return currentQuestions.questions.every((q) => answers[q.id] !== undefined);
+    return currentQuestions.every((q) => answers[q.id] !== undefined);
   }
 
   function handleNext() {
@@ -165,7 +169,7 @@ export default function PublicSurveyPage({ params }: { params: { surveyId: strin
             </CardTitle>
           </CardHeader>
           <CardContent className="p-6 space-y-8">
-            {currentQuestions.questions.map((question, index) => (
+            {currentQuestions.map((question, index) => (
               <div key={question.id} className="space-y-3">
                 <p className="font-medium text-gray-900">
                   {index + 1}. {question.text}
