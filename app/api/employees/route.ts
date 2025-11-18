@@ -28,7 +28,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { organizationId, name, email, department, position, startDate } = body;
+    const { organizationId, name, email, department, position, age, gender, tenure } = body;
 
     // Validaciones
     if (!organizationId || !name || !email) {
@@ -56,8 +56,9 @@ export async function POST(request: Request) {
       email,
       department: department || '',
       position: position || '',
-      startDate: startDate || new Date().toISOString().split('T')[0],
-      status: 'active',
+      age: age ? parseInt(age) : undefined,
+      gender: gender || '',
+      tenure: tenure || '',
     });
 
     return NextResponse.json({
