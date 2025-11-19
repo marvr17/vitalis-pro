@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getEmployeesByOrganization, createEmployee, generateId } from '@/lib/sheets';
+import { getEmployeesByOrganization, createEmployee, generateId, getOrganizationById } from '@/lib/sheets';
 
 export async function GET(request: Request) {
   try {
@@ -44,6 +44,38 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { message: 'Email inválido' },
         { status: 400 }
+      );
+    }
+
+    // Verificar límite de empleados del plan
+    const organization = await getOrganizationById(organizationId);
+    if (!organization) {
+      return NextResponse.json(
+        { message: 'Organización no encontrada' },
+        { status: 404 }
+      );
+    }
+
+    const currentEmployees = await getEmployeesByOrganization(organizationId);
+    const maxEmployees = parseInt(organization.maxEmployees) || 50;
+
+    if (currentEmployees.length >= maxEmployees) {
+      const planNames: Record<string, string> = {
+        trial: 'Trial',
+        professional: 'Professional',
+        enterprise: 'Enterprise',
+      };
+
+      const planName = planNames[organization.plan] || organization.plan;
+
+      return NextResponse.json(
+        {
+          message: `Has alcanzado el límite de ${maxEmployees} empleados de tu plan ${planName}. Contacta al administrador para aumentar tu límite.`,
+          limit: maxEmployees,
+          current: currentEmployees.length,
+          plan: organization.plan
+        },
+        { status: 403 }
       );
     }
 

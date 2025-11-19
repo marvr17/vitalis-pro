@@ -226,7 +226,7 @@ export default function RegisterPage() {
                       <span className="font-semibold text-gray-900">Enterprise</span>
                       <span className="text-sm font-medium text-purple-600">Custom</span>
                     </div>
-                    <p className="text-sm text-gray-600">Empleados ilimitados • API • SSO • Soporte dedicado</p>
+                    <p className="text-sm text-gray-600">Hasta 1000 empleados • API • SSO • Soporte dedicado</p>
                   </div>
                 </label>
               </div>

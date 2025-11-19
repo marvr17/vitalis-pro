@@ -53,13 +53,19 @@ export default function SuperAdminDashboard() {
 
       if (res.ok) {
         // Actualizar la lista de organizaciones
+        const planLimits: Record<string, number> = {
+          trial: 50,
+          professional: 200,
+          enterprise: 1000,
+        };
+
         setOrganizations(orgs =>
           orgs.map(org =>
             org.id === orgId
               ? {
                   ...org,
                   plan: newPlan,
-                  maxEmployees: newPlan === 'trial' ? 50 : newPlan === 'professional' ? 200 : 999999,
+                  maxEmployees: planLimits[newPlan] || 50,
                 }
               : org
           )

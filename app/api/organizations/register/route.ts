@@ -36,7 +36,7 @@ export async function POST(request: Request) {
     const planLimits: Record<string, number> = {
       trial: 50,
       professional: 200,
-      enterprise: 999999, // "Ilimitado"
+      enterprise: 1000,
     };
 
     const maxEmployees = planLimits[plan] || 50;

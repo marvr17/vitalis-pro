@@ -31,7 +31,7 @@ export async function PATCH(
     const planLimits: Record<string, number> = {
       trial: 50,
       professional: 200,
-      enterprise: 999999,
+      enterprise: 1000,
     };
 
     const maxEmployees = planLimits[plan] || 50;

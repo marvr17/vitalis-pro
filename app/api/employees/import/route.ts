@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createEmployee, generateId } from '@/lib/sheets';
+import { createEmployee, generateId, getOrganizationById, getEmployeesByOrganization } from '@/lib/sheets';
 
 export async function POST(request: Request) {
   try {
@@ -10,6 +10,43 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { message: 'organizationId y employees array son requeridos' },
         { status: 400 }
+      );
+    }
+
+    // Verificar límite de empleados del plan
+    const organization = await getOrganizationById(organizationId);
+    if (!organization) {
+      return NextResponse.json(
+        { message: 'Organización no encontrada' },
+        { status: 404 }
+      );
+    }
+
+    const currentEmployees = await getEmployeesByOrganization(organizationId);
+    const maxEmployees = parseInt(organization.maxEmployees) || 50;
+    const availableSlots = maxEmployees - currentEmployees.length;
+
+    if (availableSlots <= 0) {
+      return NextResponse.json(
+        {
+          message: `Has alcanzado el límite de ${maxEmployees} empleados de tu plan ${organization.plan}. No puedes importar más empleados.`,
+          limit: maxEmployees,
+          current: currentEmployees.length,
+        },
+        { status: 403 }
+      );
+    }
+
+    if (employees.length > availableSlots) {
+      return NextResponse.json(
+        {
+          message: `Solo puedes importar ${availableSlots} empleados más. Tu plan ${organization.plan} permite un máximo de ${maxEmployees} empleados y actualmente tienes ${currentEmployees.length}.`,
+          limit: maxEmployees,
+          current: currentEmployees.length,
+          available: availableSlots,
+          trying: employees.length,
+        },
+        { status: 403 }
       );
     }
 
