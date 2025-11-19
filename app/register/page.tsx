@@ -36,6 +36,7 @@ export default function RegisterPage() {
       adminName: formData.get('adminName'),
       email: formData.get('email'),
       password: formData.get('password'),
+      plan: formData.get('plan'),
     };
 
     try {
@@ -172,12 +173,71 @@ export default function RegisterPage() {
               />
             </div>
 
+            <div>
+              <label htmlFor="plan" className="block text-sm font-medium text-gray-700 mb-3">
+                Selecciona un plan
+              </label>
+              <div className="space-y-3">
+                {/* Trial Plan */}
+                <label className="flex items-start gap-3 p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-indigo-300 hover:bg-indigo-50 transition-all">
+                  <input
+                    type="radio"
+                    name="plan"
+                    value="trial"
+                    defaultChecked
+                    className="mt-1 w-4 h-4 text-indigo-600"
+                  />
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="font-semibold text-gray-900">Trial</span>
+                      <span className="text-sm font-medium text-green-600">Gratis 30 días</span>
+                    </div>
+                    <p className="text-sm text-gray-600">Hasta 50 empleados • Todas las funciones</p>
+                  </div>
+                </label>
+
+                {/* Professional Plan */}
+                <label className="flex items-start gap-3 p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-indigo-300 hover:bg-indigo-50 transition-all">
+                  <input
+                    type="radio"
+                    name="plan"
+                    value="professional"
+                    className="mt-1 w-4 h-4 text-indigo-600"
+                  />
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="font-semibold text-gray-900">Professional</span>
+                      <span className="text-sm font-medium text-indigo-600">$99/mes</span>
+                    </div>
+                    <p className="text-sm text-gray-600">Hasta 200 empleados • Reportes avanzados • Soporte prioritario</p>
+                  </div>
+                </label>
+
+                {/* Enterprise Plan */}
+                <label className="flex items-start gap-3 p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-indigo-300 hover:bg-indigo-50 transition-all">
+                  <input
+                    type="radio"
+                    name="plan"
+                    value="enterprise"
+                    className="mt-1 w-4 h-4 text-indigo-600"
+                  />
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="font-semibold text-gray-900">Enterprise</span>
+                      <span className="text-sm font-medium text-purple-600">Custom</span>
+                    </div>
+                    <p className="text-sm text-gray-600">Empleados ilimitados • API • SSO • Soporte dedicado</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+
             <button
               type="submit"
               disabled={loading}
               className="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:opacity-90 font-bold disabled:opacity-50"
             >
-              {loading ? 'Creando cuenta...' : '🚀 Crear cuenta gratis'}
+              {loading ? 'Creando cuenta...' : '🚀 Crear organización'}
             </button>
           </form>
 

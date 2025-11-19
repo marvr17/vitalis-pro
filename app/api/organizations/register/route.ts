@@ -6,7 +6,7 @@ import { slugify } from '@/lib/utils';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { companyName, adminName, email, password } = body;
+    const { companyName, adminName, email, password, plan = 'trial' } = body;
 
     // Validaciones
     if (!companyName || !adminName || !email || !password) {
@@ -32,6 +32,15 @@ export async function POST(request: Request) {
       );
     }
 
+    // Determinar maxEmployees según el plan
+    const planLimits: Record<string, number> = {
+      trial: 50,
+      professional: 200,
+      enterprise: 999999, // "Ilimitado"
+    };
+
+    const maxEmployees = planLimits[plan] || 50;
+
     // Crear organización
     const orgId = generateId();
     const slug = slugify(companyName);
@@ -40,8 +49,8 @@ export async function POST(request: Request) {
       id: orgId,
       name: companyName,
       slug: slug,
-      plan: 'trial',
-      maxEmployees: 50,
+      plan: plan,
+      maxEmployees: maxEmployees,
     });
 
     // Hash password

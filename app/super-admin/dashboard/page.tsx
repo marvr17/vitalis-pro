@@ -43,6 +43,36 @@ export default function SuperAdminDashboard() {
     }
   }
 
+  async function handleChangePlan(orgId: string, newPlan: string) {
+    try {
+      const res = await fetch(`/api/super-admin/organizations/${orgId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan: newPlan }),
+      });
+
+      if (res.ok) {
+        // Actualizar la lista de organizaciones
+        setOrganizations(orgs =>
+          orgs.map(org =>
+            org.id === orgId
+              ? {
+                  ...org,
+                  plan: newPlan,
+                  maxEmployees: newPlan === 'trial' ? 50 : newPlan === 'professional' ? 200 : 999999,
+                }
+              : org
+          )
+        );
+      } else {
+        alert('Error al cambiar el plan');
+      }
+    } catch (error) {
+      console.error('Error changing plan:', error);
+      alert('Error al cambiar el plan');
+    }
+  }
+
   function handleLogout() {
     localStorage.removeItem('user');
     localStorage.removeItem('organization');
@@ -208,9 +238,15 @@ export default function SuperAdminDashboard() {
                         </code>
                       </td>
                       <td className="px-3 md:px-6 py-3 md:py-4 whitespace-nowrap">
-                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-purple-100 text-purple-800">
-                          {org.plan}
-                        </span>
+                        <select
+                          value={org.plan}
+                          onChange={(e) => handleChangePlan(org.id, e.target.value)}
+                          className="px-2 py-1 text-xs font-medium rounded-full bg-purple-100 text-purple-800 border-0 cursor-pointer hover:bg-purple-200 transition-colors"
+                        >
+                          <option value="trial">Trial</option>
+                          <option value="professional">Professional</option>
+                          <option value="enterprise">Enterprise</option>
+                        </select>
                       </td>
                       <td className="px-3 md:px-6 py-3 md:py-4 whitespace-nowrap text-xs md:text-sm text-gray-600 hidden md:table-cell">
                         {org.maxEmployees}
