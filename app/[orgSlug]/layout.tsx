@@ -144,7 +144,8 @@ export default function OrgLayout({
           {/* Mobile menu button */}
           <button
             onClick={() => setSidebarOpen(true)}
-            className="lg:hidden p-2 rounded-lg hover:bg-gray-100"
+            className="lg:hidden p-2.5 rounded-lg hover:bg-gray-100 active:bg-gray-200 transition-colors touch-manipulation"
+            aria-label="Abrir menú"
           >
             <Menu className="w-6 h-6 text-gray-600" />
           </button>

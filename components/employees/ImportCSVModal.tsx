@@ -117,11 +117,11 @@ export default function ImportCSVModal({
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-2xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-3 md:p-4 z-50">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-[95vw] md:max-w-lg max-h-[95vh] overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-2xl">
-          <h2 className="text-2xl font-bold text-gray-900">Importar Empleados CSV</h2>
+        <div className="sticky top-0 bg-white border-b border-gray-200 px-4 md:px-6 py-3 md:py-4 flex items-center justify-between rounded-t-2xl">
+          <h2 className="text-lg md:text-2xl font-bold text-gray-900">Importar Empleados CSV</h2>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -131,14 +131,14 @@ export default function ImportCSVModal({
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-6">
+        <div className="p-4 md:p-6 space-y-4 md:space-y-6">
           {/* Instructions */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h3 className="font-semibold text-blue-900 mb-2 flex items-center gap-2">
-              <AlertCircle className="w-5 h-5" />
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 md:p-4">
+            <h3 className="font-semibold text-blue-900 mb-2 flex items-center gap-2 text-sm md:text-base">
+              <AlertCircle className="w-4 h-4 md:w-5 md:h-5" />
               Instrucciones
             </h3>
-            <ol className="text-sm text-blue-800 space-y-1 list-decimal list-inside">
+            <ol className="text-xs md:text-sm text-blue-800 space-y-1 list-decimal list-inside">
               <li>Descarga la plantilla CSV de ejemplo</li>
               <li>Completa los datos de tus empleados</li>
               <li>Sube el archivo CSV completado</li>

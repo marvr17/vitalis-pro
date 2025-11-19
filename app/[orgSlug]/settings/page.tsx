@@ -66,7 +66,7 @@ export default function SettingsPage({ params }: { params: { orgSlug: string } }
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Nombre de la Empresa
@@ -74,7 +74,7 @@ export default function SettingsPage({ params }: { params: { orgSlug: string } }
                   <input
                     type="text"
                     defaultValue={organization?.name || ''}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                    className="w-full px-3 md:px-4 py-2.5 md:py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
                   />
                 </div>
                 <div>
@@ -82,11 +82,11 @@ export default function SettingsPage({ params }: { params: { orgSlug: string } }
                     Slug URL
                   </label>
                   <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-500">vitalis-pro.vercel.app/</span>
+                    <span className="text-xs md:text-sm text-gray-500 hidden md:inline">vitalis-pro.vercel.app/</span>
                     <input
                       type="text"
                       defaultValue={organization?.slug || ''}
-                      className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                      className="flex-1 px-3 md:px-4 py-2.5 md:py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
                     />
                   </div>
                 </div>
@@ -101,7 +101,7 @@ export default function SettingsPage({ params }: { params: { orgSlug: string } }
                   <input
                     type="email"
                     defaultValue={organization?.email || ''}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                    className="w-full pl-10 pr-3 md:pr-4 py-2.5 md:py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -115,7 +115,7 @@ export default function SettingsPage({ params }: { params: { orgSlug: string } }
                   <input
                     type="url"
                     placeholder="https://tu-empresa.com"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                    className="w-full pl-10 pr-3 md:pr-4 py-2.5 md:py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -124,7 +124,7 @@ export default function SettingsPage({ params }: { params: { orgSlug: string } }
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Industria
                 </label>
-                <select className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent">
+                <select className="w-full px-3 md:px-4 py-2.5 md:py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent">
                   <option>Tecnología</option>
                   <option>Retail</option>
                   <option>Servicios</option>
@@ -138,7 +138,7 @@ export default function SettingsPage({ params }: { params: { orgSlug: string } }
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Tamaño de la Empresa
                 </label>
-                <select className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent">
+                <select className="w-full px-3 md:px-4 py-2.5 md:py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent">
                   <option>1-50 empleados</option>
                   <option>51-200 empleados</option>
                   <option>201-500 empleados</option>
@@ -322,7 +322,7 @@ export default function SettingsPage({ params }: { params: { orgSlug: string } }
                   </label>
                   <input
                     type="password"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                    className="w-full px-3 md:px-4 py-2.5 md:py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
                   />
                 </div>
                 <div>
@@ -331,7 +331,7 @@ export default function SettingsPage({ params }: { params: { orgSlug: string } }
                   </label>
                   <input
                     type="password"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                    className="w-full px-3 md:px-4 py-2.5 md:py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
                   />
                 </div>
                 <div>
@@ -340,7 +340,7 @@ export default function SettingsPage({ params }: { params: { orgSlug: string } }
                   </label>
                   <input
                     type="password"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                    className="w-full px-3 md:px-4 py-2.5 md:py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
                   />
                 </div>
                 <Button className="gap-2">
